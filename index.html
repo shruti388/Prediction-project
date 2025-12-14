@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Road Risk Prediction</title>
+  </head>
+  <body>
+    <!-- This is where React mounts your app -->
+    <div id="root"></div>
+
+    <!-- Vite will inject scripts automatically -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Road Risk Prediction</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f1f5f9; margin:0; }
+    .container { max-width: 400px; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    button { background: #1d4ed8; color: white; border: none; cursor: pointer; }
+    button:hover { background: #2563eb; }
+    img { display: block; margin: 10px auto; width: 100px; }
+    .alert { padding: 10px; margin-top: 10px; border-radius: 5px; font-weight: bold; text-align: center; }
+    .red { background: #dc2626; color: white; }
+    .yellow { background: #facc15; color: black; }
+    .green { background: #16a34a; color: white; }
+  </style>
+</head>
+<body>
+  <div id="root" class="container"></div>
+
+  
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script type="text/babel">
+
+    const { useState } = React;
+
+    function RoadRisk() {
+      const [city, setCity] = useState("");
+      const [result, setResult] = useState(null);
+
+      const API_KEY = "bfe596fa6f7613c874732abe912fe034"; // replace with your key
+
+      const getAlertMessage = (score) => {
+        if (score >= 90) return { text: "EXTREME ALERT! Avoid travel!", className: "red" };
+        if (score >= 70) return { text: "HIGH ALERT! Drive carefully!", className: "red" };
+        if (score >= 40) return { text: "MODERATE ALERT! Be cautious.", className: "yellow" };
+        return { text: "SAFE: Roads are fine.", className: "green" };
+      };
+
+      const getRoadRisk = async () => {
+        if (!city) return alert("Enter city name");
+
+        try {
+          const res = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+          );
+          const data = await res.json();
+          console.log(data); 
+
+          if (data.cod !== 200) return alert("City not found");
+
+          const temp = data.main.temp;
+          const weather = data.weather[0].main;
+
+          let risk = "", score = 0, image = "";
+
+          if (weather === "Rain") { risk="Slippery Roads"; score=80; image="https://i.imgur.com/6XQjXyP.png"; }
+          else if (weather === "Snow") { risk="Very High Risk"; score=95; image="https://i.imgur.com/WZ6V5cB.png"; }
+          else if (temp > 35) { risk="Hot Weather"; score=30; image="https://i.imgur.com/Z9qZ1Zs.png"; }
+          else { risk="Normal"; score=55; image="https://i.imgur.com/Uh7G5Tn.png"; }
+
+          setResult({ city: data.name, temp, weather, risk, score, image });
+        } catch (err) {
+          alert("Failed to fetch weather data");
+          console.error(err);
+        }
+      };
+
+      return (
+        <div>
+          <h1 style={{ textAlign: "center" }}>🚦 Road Risk Prediction</h1>
+          <input placeholder="Enter city name" value={city} onChange={e => setCity(e.target.value)} />
+          <button onClick={getRoadRisk}>Check Road Risk</button>
+
+          {result && (
+            <div>
+              <p><b>City:</b> {result.city}</p>
+              <p>🌡 Temp: {result.temp}°C</p>
+              <p>🌥 Weather: {result.weather}</p>
+              <p>⚠️ {result.risk}</p>
+              <div className={`alert ${getAlertMessage(result.score).className}`}>
+                {getAlertMessage(result.score).text}
+              </div>
+              <img src={result.image} alt="Weather" />
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<RoadRisk />);
+
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -->
