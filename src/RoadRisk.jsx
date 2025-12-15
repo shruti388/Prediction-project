@@ -12,7 +12,7 @@ export default function RoadRisk() {
 
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY?.trim();
 
-  const getWeatherBackgroundClass = (weather) => {
+   const getWeatherBackgroundClass = (weather) => {
     if (!weather) return 'bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 animate-gradient floating-shapes';
     
     const lowerWeather = weather.toLowerCase();
