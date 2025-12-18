@@ -12,7 +12,7 @@ export default function RoadRisk() {
 
   const [loading, setLoading] = useState(false);
 
-  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY?.trim();
+  const API_KEY = import.meta.env.VITE_WEATHER_API_KEY?.trim() || "bfe596fa6f7613c874732abe912fe034";
 
    const getWeatherBackgroundClass = (weather) => {
     if (!weather) return 'bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 animate-gradient floating-shapes';
@@ -32,13 +32,10 @@ export default function RoadRisk() {
   };
 
 
-  const API_KEY = "bfe596fa6f7613c874732abe912fe034";
-
-
   const getAlertMessage = (score) => {
     if (score >= 90) return { text: "EXTREME ALERT! Avoid travel!", color: "bg-red-900", textColor: "text-white" };
     if (score >= 70) return { text: "HIGH ALERT! Drive carefully!", color: "bg-red-700", textColor: "text-white" };
-    if (score >= 40) return { text: "MODERATE ALERT! Be cautious.", color: "bg-yellow-400", textColor: "text-black" };
+    if (score >= 40) return { text: "Risk Level: Moderate", color: "bg-yellow-400", textColor: "text-black" };
     return { text: "SAFE: Roads are fine.", color: "bg-green-600", textColor: "text-white" };
   };
 
@@ -59,14 +56,14 @@ export default function RoadRisk() {
       if (data.cod !== 200) return alert("City not found");
 
       const temp = data.main.temp;
-      const weather = data.weather[0].main;
+      const weather = data.weather[0].main.toLowerCase();
 
       let risk = "", score = 0, image = "";
 
       if (weather === "Rain") { risk = "Slippery Roads"; score = 80; image = "/rain.jpg";}
       else if (weather === "Snow") { risk = "Very High Risk"; score = 95; image = "/snowimg.jpg"; }
       else if (temp > 35) { risk = "Hot Weather"; score = 30; image = "/hotimg.jpg"; }
-      else { risk = "Normal"; score = 55; image = "/hotimg.jpg"; }
+      else { risk = "Normal"; score = 55; image = "/normalimg.jpg"; }
 
       setResult({ 
         city: data.name, 
@@ -90,7 +87,7 @@ export default function RoadRisk() {
 
   return (
     <div className={`min-h-screen ${getWeatherBackgroundClass(result?.weather)} relative overflow-hidden`}>
-      {/* Animated background elements */}
+      {/* Animation background */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-float"></div>
         <div className="absolute top-3/4 right-1/4 w-64 h-64 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-float" style={{animationDelay: '2s'}}></div>
@@ -98,13 +95,13 @@ export default function RoadRisk() {
       </div>
 
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-        <div className="max-w-4xl w-full glassmorphism rounded-3xl shadow-2xl overflow-hidden animate-slide-in-up">
+        <div className="max-w-4xl w-full glassmorphism rounded-3xl shadow-sm overflow-hidden animate-slide-in-up">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white p-8 text-center relative">
+          <div className="bg-linear-to-r from-blue-600 via-purple-600 to-indigo-600 text-white p-8 text-center relative">
             <div className="absolute inset-0 bg-black bg-opacity-20"></div>
             <div className="relative z-10">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-pulse-glow">🛣️ Advanced Road Risk Predictor</h1>
-              <p className="text-xl text-blue-100 mb-2">AI-Powered Safety Analysis</p>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-pulse-glow"> Road Risk Prediction System</h1>
+              <p className="text-xl text-blue-100 mb-2">Road Safety Analysis Based on Weather Conditions</p>
               <p className="text-sm text-blue-200">Real-time weather assessment for safer journeys</p>
             </div>
           </div>
@@ -113,7 +110,7 @@ export default function RoadRisk() {
           <div className="p-8 bg-white bg-opacity-95 backdrop-blur-sm">
             {/* Input Section */}
             <div className="mb-8">
-              <label htmlFor="city" className="block text-gray-800 font-semibold text-lg mb-3 flex items-center">
+              <label htmlFor="city" className="text-gray-800 font-semibold text-lg mb-3 flex items-center">
                 <span className="mr-2">🏙️</span>
                 City Location
               </label>
@@ -121,10 +118,10 @@ export default function RoadRisk() {
                 <input
                   id="city"
                   type="text"
-                  placeholder="Enter city name (e.g., London, New York, Tokyo)"
+                  placeholder="Enter city name"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
-                  className="w-full p-5 pr-12 rounded-xl border-2 border-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all text-lg shadow-lg hover:shadow-xl"
+                  className="w-full p-5 pr-12 rounded-lg border-2 border-gray-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all text-lg shadow-sm hover:shadow-xl"
                   disabled={loading}
                 />
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -137,7 +134,7 @@ export default function RoadRisk() {
             <button
               onClick={getRoadRisk}
               disabled={loading}
-              className="w-full p-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold text-xl rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center mb-8 animate-pulse-glow"
+              className="w-full p-5 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold text-xl rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center mb-8 animate-pulse-glow"
             >
               {loading ? (
                 <>
@@ -149,8 +146,8 @@ export default function RoadRisk() {
                 </>
               ) : (
                 <>
-                  <span className="mr-3">🚀</span>
-                  Analyze Road Risk
+                  <span className="mr-3"></span>
+                  Check Road Risk
                 </>
               )}
             </button>
@@ -161,9 +158,9 @@ export default function RoadRisk() {
                 {/* Main Dashboard */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Risk Assessment Card */}
-                  <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-6 border border-red-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="bg-linear-to-br from-red-50 to-orange-50 rounded-2xl p-6 border border-red-200 shadow-sm transition-shadow duration-300">
                     <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                      <span className="mr-3">⚠️</span>
+                      <span className="mr-3"></span>
                       Risk Assessment
                     </h3>
                     <div className="text-center mb-4">
@@ -201,10 +198,10 @@ export default function RoadRisk() {
                   </div>
 
                   {/* Weather Overview Card */}
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div className="bg-linear-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
                     <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                      <span className="mr-3">🌤️</span>
-                      Weather Overview
+                      <span className="mr-3"></span>
+                      Weather Details
                     </h3>
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-3 bg-white bg-opacity-50 rounded-lg">
@@ -246,7 +243,7 @@ export default function RoadRisk() {
                   <div className="text-center animate-float">
                     <div className="inline-block p-4 bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl shadow-lg">
                       <img src={result.image} alt="Weather condition" className="w-40 h-40 mx-auto rounded-xl shadow-md object-cover" />
-                      <p className="mt-3 text-gray-700 font-medium">Current Weather Visual</p>
+                      <p className="mt-3 text-gray-700 font-medium">Weather Condition</p>
                     </div>
                   </div>
                 )}
