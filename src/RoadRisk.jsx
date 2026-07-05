@@ -100,7 +100,7 @@ export default function RoadRisk() {
           <div className="bg-linear-to-r from-blue-600 via-purple-600 to-indigo-600 text-white p-8 text-center relative">
             <div className="absolute inset-0 bg-black bg-opacity-20"></div>
             <div className="relative z-10">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-pulse-glow"> Road Risk Prediction System</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 animate-pulse-glow"> Real-Time Weather Risk Prediction System </h1>
               <p className="text-xl text-blue-100 mb-2">Road Safety Analysis Based on Weather Conditions</p>
               <p className="text-sm text-blue-200">Real-time weather assessment for safer journeys</p>
             </div>
